@@ -7,7 +7,7 @@ RUN apk --no-cache add \
 
 # commit SHA, branch, tag, etc.
 ARG GIT_REVISION=master
-# comma separated list of PRs to try and merge into $branch, will fail silently and continue if automatic merge fails
+# comma separated list of PRs to try and merge into $GIT_REVISION, will fail silently and continue if automatic merge fails
 ARG PULL_REQUESTS=
 
 # needed to create merge commits

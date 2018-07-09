@@ -2,6 +2,9 @@ FROM node:8-alpine
 
 WORKDIR /opt/thelounge
 
+ENV THELOUNGE_HOME /var/opt/thelounge
+VOLUME "${THELOUNGE_HOME}"
+
 RUN apk --no-cache add \
     git
 

@@ -30,4 +30,7 @@ RUN yarn && \
 
 ENV NODE_ENV=production
 
+# expose the default port
+EXPOSE 9000
+
 CMD ["thelounge", "start"]

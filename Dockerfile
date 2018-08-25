@@ -21,7 +21,11 @@ RUN git clone https://github.com/thelounge/thelounge.git . && \
     git checkout "$GIT_REVISION"
 
 # merge all (optional) pull requests
-RUN for pr in $(echo $PULL_REQUESTS | tr ',' '\n'); do git fetch origin "refs/pull/$pr/head" && (git merge --no-edit --no-ff FETCH_HEAD || git merge --abort); done
+RUN \
+for pr in $(echo $PULL_REQUESTS | tr ',' '\n'); do \
+    git fetch origin "refs/pull/$pr/head" && (git merge --no-edit --no-ff FETCH_HEAD || yarn || git merge --abort); \
+done; \
+rm -rf node_modules
 
 RUN yarn && \
     NODE_ENV=production yarn build && \

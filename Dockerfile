@@ -2,8 +2,6 @@ FROM node:12-alpine
 
 WORKDIR /opt/thelounge
 
-ENV BUILD_TIMESTAMP=$(date +%s)
-
 RUN apk --no-cache add \
     git
 

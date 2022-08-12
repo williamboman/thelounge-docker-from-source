@@ -1,9 +1,13 @@
-FROM node:12-alpine
+FROM node:lts-alpine
 
 WORKDIR /opt/thelounge
 
-RUN apk --no-cache add \
+RUN apk --update --no-cache --virtual build-deps add \
     git
+
+# If you're using an architecture that has no pre-compiled binaries, switch to this command instead of the above.
+# RUN apk --update --no-cache --virtual build-deps add \
+#     git python3 build-base
 
 # needed to create merge commits
 RUN git config --global user.name "Docker" && \
@@ -27,10 +31,13 @@ for pr in $(echo $PULL_REQUESTS | tr ',' '\n'); do \
 done; \
 rm -rf node_modules
 
-RUN yarn && \
-    NODE_ENV=production yarn build && \
-    yarn install --production && \
-    yarn link
+RUN yarn --non-interactive && \
+    NODE_ENV=production yarn --non-interactive build && \
+    rm -rf node_modules && \
+    yarn install --production --non-interactive && \
+    yarn link --non-interactive && \
+    yarn cache clean --non-interactive && \
+    apk del build-deps
 
 ENV NODE_ENV=production
 
